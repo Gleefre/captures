@@ -1,0 +1,8 @@
+#+title: Captures
+#+author: Gleefre
+#+email: varedif.a.s@gmail.com
+
+#+language: en
+#+options: toc:nil
+
+=captures= are functions that can access the lexical environment they are called in.

@@ -1,0 +1,20 @@
+(in-package #:captures/ext)
+
+(defcapture :variable (name &key (as name))
+  (pass-as-arg as name))
+
+(defcapture :place (place &key (as place))
+  (with-gensyms (place-getter place-setter)
+    (pass-as-arg place-getter `(lambda () ,place))
+    (pass-as-arg place-setter `(lambda (v) (setf ,place v)))
+    (setf (capture-body *capture*)
+          `(symbol-macrolet ((,as (place ,place-getter ,place-setter)))
+             ,(capture-body *capture*)))))
+
+(defcapture :function (name &key (as name))
+  (with-gensyms (g!func)
+    (pass-as-arg g!func `(function ,name))
+    (setf (capture-body *capture*)
+          `(flet ((,as (&rest args)
+                    (apply ,g!func args)))
+             ,(capture-body *capture*)))))
