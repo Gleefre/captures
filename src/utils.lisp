@@ -27,6 +27,8 @@
                     (mapcar #'caddr key)
                     (mapcar #'car aux)))))
 
+(declaim (inline place (setf place)))
+
 (defun place (getter setter)
   (declare (ignore setter))
   (funcall getter))
